@@ -21,12 +21,14 @@ LICENSE
 	
 LIBRARIES/EXTERNAL CODE
 =======================
-	Tdlib-TD Copyright owner and contributors: Aliaksei Levin <levlam@telegram.org>
-											   Arseny Smirnov <arseny30@gmail.com>
-							                   hekkup
-							                   Vladislav Yashin <v.yashin.work@gmail.com>
-							                   cosmonawt
-							                   Aziz Kasymov 
-							                   Felix Krause <github@krausefx.com>
-							                   Mark
-	TDLib is licensed under the terms of the Boost Software License										   
+Tdlib-TD Copyright owner and contributors: 
+  - Aliaksei Levin <levlam@telegram.org>
+  - Arseny Smirnov <arseny30@gmail.com>
+  - hekkup
+  - Vladislav Yashin <v.yashin.work@gmail.com>
+  - cosmonawt
+  - Aziz Kasymov 
+  - Felix Krause <github@krausefx.com>
+  - Mark
+  
+TDLib is licensed under the terms of the Boost Software License										   

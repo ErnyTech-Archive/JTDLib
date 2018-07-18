@@ -17,6 +17,7 @@
 
 package it.ernytech.tdbot;
 
+import de.fuerstenau.buildconfig.BuildConfig;
 import it.ernytech.tdlib.*;
 import it.ernytech.tdlib.utils.CloseCallback;
 import it.ernytech.tdlib.utils.ErrorCallback;
