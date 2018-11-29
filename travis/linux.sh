@@ -5,7 +5,7 @@ sudo add-apt-repository ppa:openjdk-r/ppa -y
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
 sudo apt-get update -qq
 sudo apt-get upgrade -y
-sudo apt-get install gcc-8 g++-8 make gperf openjdk-11 cmake libssl-dev -y
+sudo apt-get install gcc-8 g++-8 make gperf openjdk-11-jdk cmake libssl-dev -y
 
 # Dirs
 cd src/main/jni
