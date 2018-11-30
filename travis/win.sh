@@ -1,18 +1,29 @@
 #!/bin/bash
 
-# Vcpkg
-git clone https://github.com/Microsoft/vcpkg.git
-cd vcpkg
-ls
-./bootstrap-vcpkg.sh
-ls
-sudo ./vcpkg integrate install
-./vcpkg install zlib:x64-windows-static openssl:x64-windows-static
-cd $TRAVIS_BUILD_DIR
-
 # Build deps
 choco install gperf 
+choco install strawberryperl 
 choco install jdk8 -params 'installdir=c:\\java8'
+
+# openssl
+mkdir $TRAVIS_BUILD_DIR/openssl-root
+git clone https://github.com/openssl/openssl.git -b OpenSSL_1_1_1-stable
+cd openssl
+perl Configure enable-static-engine enable-capieng no-ssl2 -utf-8 VC-WIN64A --prefix=$TRAVIS_BUILD_DIR/openssl-root --openssldir=$TRAVIS_BUILD_DIR/openssl-root no-shared
+nmake
+nmake install
+cd ..
+
+# zlib
+mkdir $TRAVIS_BUILD_DIR/zlib-root
+git clone https://github.com/madler/zlib.git -b v1.2.11
+cd zlib
+cmake -DCMAKE_INSTALL_PREFIX:PATH=$TRAVIS_BUILD_DIR/zlib-root -DSKIP_BUILD_EXAMPLES=ON .
+cmake --build . --target install
+cd ..
+
+ls $TRAVIS_BUILD_DIR/openssl-root
+ls $TRAVIS_BUILD_DIR/zlib-root
 
 # Dirs
 cd src/main/jni
