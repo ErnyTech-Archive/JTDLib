@@ -4,10 +4,10 @@
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
 ls
-cmd.exe /c bootstrap-vcpkg.bat
+./bootstrap-vcpkg.sh
 ls
-powershell.exe .\vcpkg integrate install
-powershell.exe .\vcpkg install zlib:x64-windows-static openssl:x64-windows-static
+sudo ./vcpkg integrate install
+./vcpkg install zlib:x64-windows-static openssl:x64-windows-static
 cd $TRAVIS_BUILD_DIR
 
 # Build deps
