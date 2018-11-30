@@ -16,7 +16,53 @@ deploy:
   on:
     branch: master
 
-script: 
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then bash travis/linux.sh; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash travis/mac.sh; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then bash travis/win.sh; fi
+script: |
+  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
+    bash travis/linux.sh; 
+  fi
+  
+  if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
+    bash travis/mac.sh; 
+  fi
+  
+  if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then 
+    choco install gperf 
+    choco install strawberryperl 
+    choco install jdk8 -params 'installdir=c:\\java8'
+    
+    # openssl
+    mkdir $TRAVIS_BUILD_DIR/openssl-root
+    git clone https://github.com/openssl/openssl.git -b OpenSSL_1_1_1-stable
+    cd openssl
+    perl Configure enable-static-engine enable-capieng no-ssl2 -utf-8 VC-WIN64A --prefix=$TRAVIS_BUILD_DIR/openssl-root --openssldir=$TRAVIS_BUILD_DIR/openssl-root no-shared
+    nmake
+    nmake install
+    cd ..
+
+    # zlib
+    mkdir $TRAVIS_BUILD_DIR/zlib-root
+    git clone https://github.com/madler/zlib.git -b v1.2.11
+    cd zlib
+    cmake -DCMAKE_INSTALL_PREFIX:PATH=$TRAVIS_BUILD_DIR/zlib-root -DSKIP_BUILD_EXAMPLES=ON .
+    cmake --build . --target install
+    cd ..
+
+    ls $TRAVIS_BUILD_DIR/openssl-root
+    ls $TRAVIS_BUILD_DIR/zlib-root
+
+    # Dirs
+    cd src/main/jni
+    mkdir build
+    mkdir $TRAVIS_BUILD_DIR/out
+    cd build
+
+    # Setup env
+    export JAVA_HOME="c:\\java8"
+
+    # Build
+    cmake -DTD_ENABLE_JNI=ON  -DCMAKE_INSTALL_PREFIX:PATH=. -DCMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR\vcpkg\scripts\buildsystems\vcpkg.cmake ..
+    cmake --build . --target install
+
+    # Copy artifacts
+    cp bin/libtdjni.dll $TRAVIS_BUILD_DIR/out
+  fi
