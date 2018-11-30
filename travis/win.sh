@@ -3,6 +3,8 @@
 # Vcpkg
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
+ls
+
 powershell.exe -NoProfile -ExecutionPolicy Bypass "& {& '%~dp0scripts\bootstrap.ps1' %*}"
 powershell.exe .\vcpkg integrate install
 powershell.exe .\vcpkg install zlib:x64-windows-static openssl:x64-windows-static
